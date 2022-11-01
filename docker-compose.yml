@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  backend:
+    image: registry.gitlab.propulsion-home.ch/manuel-winkler/motion-solo-docker
+    ports:
+      - 8084:8000
+    volumes:
+      - ./backend:/backend
+    env_file:
+      - ./envs/dev.env
+    command: "tail -f /dev/null"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    env_file:
+      - ./envs/dev.env
+    ports:
+      - 5555:5432
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_db:
